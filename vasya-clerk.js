@@ -13,33 +13,24 @@ Examples:
 tickets([25, 25, 50]) // => YES
 tickets([25, 100]) // => NO. Vasya will not have enough money to give change to 100 dollars
 */
-const moneyArray = [100, 50, 25];
 
-function getRest (money, bill) {
-    const needToGiveBack = bill - 25;
-
-    if (needToGiveBack === 0) {
-        return {
-            money,
-            success: true,
-        }
-    }
-
+// Important part of this application
+// Money array: array with possible bills. Sequence is important as it will be taken as base order
+// money
+function getRest (moneyArray, money, bill) {
     for (let i = 0; i < moneyArray.length; i++) {
-        while (bill - moneyArray[i] > 0) {
-            if (money[moneyArray[i]] === 0) {
-                return {
-                    success: falase
-                }
-            }
-            
+        // While selected 'destroy' bill can substract smth from bill and there is money in money to do it
+        while (bill - moneyArray[i] >= 0 && money[moneyArray[i]] > 0) {
             bill -= moneyArray[i];
             money[moneyArray[i]]--;
         }
     }
+
+    return bill === 0;
 }
 
 function tickets(bills){
+    const moneyArray = [100, 50, 25];
     let money = {
         100: 0,
         50: 0,
@@ -47,16 +38,14 @@ function tickets(bills){
     };
 
     for (let i = 0, n = bills.length ; i < n; i++) {
-        const restResponse = getRest(money, bill[i]);
+        const success = getRest(moneyArray, money, bills[i] - 25);
 
-        if (!restResponse.success) {
+        if (!success) {
             return 'NO';
         }
 
-        money[bill[i]]++;
+        money[bills[i]]++;
     }
 
     return 'YES';
 }
-
-console.log(tickets([25, 100]));
