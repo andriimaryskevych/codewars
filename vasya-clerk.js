@@ -17,16 +17,16 @@ tickets([25, 100]) // => NO. Vasya will not have enough money to give change to 
 // Important part of this application
 // Money array: array with possible bills. Sequence is important as it will be taken as base order
 // money
-function getRest (moneyArray, money, bill) {
-    for (let i = 0; i < moneyArray.length; i++) {
+function tryGetRest (bills, currentMoney, targetBill) {
+    for (let i = 0; i < bills.length; i++) {
         // While selected 'destroy' bill can substract smth from bill and there is money in money to do it
-        while (bill - moneyArray[i] >= 0 && money[moneyArray[i]] > 0) {
-            bill -= moneyArray[i];
-            money[moneyArray[i]]--;
+        while (targetBill - bills[i] >= 0 && currentMoney[bills[i]] > 0) {
+            targetBill -= bills[i];
+            currentMoney[bills[i]]--;
         }
     }
 
-    return bill === 0;
+    return targetBill === 0;
 }
 
 function tickets(bills){
@@ -38,9 +38,9 @@ function tickets(bills){
     };
 
     for (let i = 0, n = bills.length ; i < n; i++) {
-        const success = getRest(moneyArray, money, bills[i] - 25);
+        const canGetRest = tryGetRest(moneyArray, money, bills[i] - 25);
 
-        if (!success) {
+        if (!canGetRest) {
             return 'NO';
         }
 
@@ -49,3 +49,5 @@ function tickets(bills){
 
     return 'YES';
 }
+
+console.log(tickets([25]))
