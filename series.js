@@ -1,19 +1,25 @@
 function getSeries(array) {
-    const series = [];
-    let start = array[0];
+    const serise = [];
 
-    for (let i = 0; i < array.length - 1; i++) {
-        // End of serie
-        if (array[i] - array[i + 1] !== -1) {
-            series.push([start, array[i]]);
+    array.splice(1).reduce((a, c) => {
+        if (a.prev + 1 !== c) {
+            serise.push([a.start, a.prev]);
 
-            start = array[i + 1];
+            return {
+                start: c,
+                prev: c,
+            }
         }
-    }
 
-    series.push([start, array[array.length - 1]])
+        a.prev = c;
+        return a;
+    },
+    {
+        start: array[0],
+        prev: array[0],
+    });
 
-    return series;
+    return serise;
 }
 
 console.log(getSeries([-5, -4, -3, 0, 1, 4, 6, 8, 9, 10, 100]))
