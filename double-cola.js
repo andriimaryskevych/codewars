@@ -26,21 +26,15 @@ whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 7230702951) == "L
 // Creating following sequence
 // (1, 2, 3)(1, 1, 2, 2, 3, 3)(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3)...
 function whoIsNext(names, r){
-    const length = names.length;
-
-    let currentTotal = length;
-    let iterationSize = length;
+    let currentTotal = names.length;
+    let iterationSize = names.length;
 
     while (currentTotal < r) {
         iterationSize *= 2;
         currentTotal += iterationSize;
     }
 
-    const lowerBound = currentTotal - iterationSize;
-    const normalaized = r - lowerBound;
-    const index = Math.ceil((normalaized / iterationSize) * length) - 1;
-
-    return names[index];
+    return names[Math.ceil(((r - (currentTotal - iterationSize)) / iterationSize) * names.length) - 1];
 }
 
 console.log(whoIsNext(["Sheldon", "Leonard", "Penny", "Rajesh", "Howard"], 4));
