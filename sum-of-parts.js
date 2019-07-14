@@ -16,9 +16,9 @@ ls = []
 
 function partsSums(array) {
     return array.reduceRight((a, c) => {
-        a.unshift(c + a[0]);
+        a.push(c + a[a.length - 1]);
         return a;
-    }, [0])
+    }, [0]).reverse();
 };
 
 console.log(partsSums([744125, 935, 407, 454, 430, 90, 144, 6710213, 889, 810, 2579358]));
