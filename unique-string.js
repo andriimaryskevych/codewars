@@ -5,23 +5,24 @@
     3) Sort
 */
 
-function normalize (string) {
-    return string
-        .toUpperCase()
-        .split('')
-        .filter(a => a !== ' ')
-        .sort()
-        .join('');
-}
-
-function getUniqueCharacters (string) {
-    const map = {};
+function equalize (string) {
+    const wordMap = {};
 
     string
+        // remove all spaces
+        .split(' ')
+        .filter(Boolean)
+        // to uppercase
+        .map(a => a.toUpperCase())
+        // join parts and split to map characters
+        .join('')
         .split('')
-        .forEach(item => { map[item] = true; });
+        .forEach(letter => {
+            wordMap[letter] = true;
+        });
 
-    return Object.keys(map).join('');
+    // sort and unify
+    return Object.keys(wordMap).sort().join('');
 }
 
 function findUniq(arr) {
