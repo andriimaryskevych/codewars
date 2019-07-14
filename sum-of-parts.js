@@ -15,10 +15,15 @@ ls = []
 */
 
 function partsSums(array) {
-    return array.reduceRight((a, c) => {
-        a.push(c + a[a.length - 1]);
-        return a;
-    }, [0]).reverse();
+    const result = new Array(array.length + 1);
+    const length = result.length;
+    result[length - 1] = 0;
+
+    for (let i = length - 2; i >= 0; i--) {
+        result[i] = result[i + 1] + array[i];
+    }
+
+    return result;
 };
 
 console.log(partsSums([744125, 935, 407, 454, 430, 90, 144, 6710213, 889, 810, 2579358]));
