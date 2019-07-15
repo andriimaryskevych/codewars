@@ -26,34 +26,33 @@ function equalize (string) {
 }
 
 function findUniq(arr) {
-    const value = {};
+    const [a, b, c] = arr.slice(0,3).map(equalize);
 
-    const three = arr.splice(0,3).map(normalize);
-    console.log(three);
-    console.log(getUniqueCharacters(three[0]))
-    console.log(getUniqueCharacters(three[1]))
-    console.log(getUniqueCharacters(three[2]))
+    if (a !== b && a !== c) {
+        return arr[0];
+    }
 
-    // for (let i = 0, n = arr.length; i < n; i++) {
-    //     const normalized = normalize(arr[i]);
+    let sameValue;
 
-    //     value[arr[i]] = value[arr[i]] || 0;
-    //     value[arr[i]]++;
+    if (a === b) {
+        if (a === c) {
+            sameValue = a;
+        } else {
+            return arr[2];
+        }
+    } else {
+        if (a === c) {
+            return arr[1];
+        } else {
+            return arr[0];
+        }
+    }
 
-    //     if (Object.keys(value).length === 2 && Object.values(value).some(a => a > 1)) {
-    //         break;
-    //     }
-    // }
-
-    // let seatchedValue;
-
-    // Object.entries(value).forEach(([key, val]) => {
-    //     if (val === 1) {
-    //         seatchedValue = key;
-    //     }
-    // })
-
-    return Number(seatchedValue);
+    for (let i = 0, n = arr.length; i < n; i++) {
+        if (equalize(arr[i]) !== sameValue) {
+            return arr[i];
+        }
+    }
 }
 
-console.log(findUniq([ 'Aa', 'aaa', 'aaaaa', 'BbBb', 'Aaaa', 'AaAaAa', 'a'  ]));
+console.log(findUniq(['silvia', 'vasili', 'victor']));
