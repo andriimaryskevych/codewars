@@ -18,20 +18,9 @@ function chooseBestSum(t, k, ls) {
         }
     }
 
-    const getAllPairs = (number, size) => {
-        const arr = [];
+    getNext([], ls, k);
 
-        for (let i = 0; i < number; i++) arr.push(i);
-        getNext([], arr, size);
-    }
-
-    getAllPairs(ls.length, k);
-
-    const a = globalArr.map(array => {
-        return array.reduce((a, c) => {
-            return a + ls[c];
-        }, 0);
-    });
+    const a = globalArr.map(arr => arr.reduce((a, c) => a + c, 0));
 
     let min;
     let val;
@@ -46,6 +35,6 @@ function chooseBestSum(t, k, ls) {
     }
 
     return val || null;
-};
+}
 
 console.log(chooseBestSum(230, 3, [91, 74, 73, 85, 73, 81, 87]));
