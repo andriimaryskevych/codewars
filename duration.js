@@ -20,37 +20,22 @@ function formatDuration (seconds) {
         return 'now';
     }
 
-    let time = {};
+    const params = [
+        { name: 'year', duration: 60 * 60 * 24 * 365 },
+        { name: 'day', duration: 60 * 60 * 24 },
+        { name: 'hour', duration: 60 * 60 },
+        { name: 'minute', duration: 60 },
+        { name: 'second', duration: 1 },
+    ];
 
-    let yearSeconds = 60 * 60 * 24 * 365;
-    time.year = Math.floor(seconds / yearSeconds);
-    seconds -= time.year * yearSeconds;
-
-    let daySeconds = 60 * 60 * 24;
-    time.day = Math.floor(seconds / daySeconds);
-    seconds -= time.day * daySeconds;
-
-    let hourSeconds = 60 * 60;
-    time.hour = Math.floor(seconds / hourSeconds);
-    seconds -= time.hour * hourSeconds;
-
-    let minuteSeconds = 60;
-    time.minute = Math.floor(seconds / minuteSeconds);
-    seconds -= time.minute * minuteSeconds;
-
-    let secSeconds = 1;
-    time.second = Math.floor(seconds / secSeconds);
-    seconds -= time.second * secSeconds;
-
-    const names = ['year', 'day', 'hour', 'minute', 'second'];
-
-    const arrayTime = names.reduce((a, c) => {
-        if (time[c]) {
-            a.push(`${time[c]} ${c}${time[c] === 1 ? '' : 's'}`);
+    const arrayTime = [];
+    params.forEach(({ name, duration }) => {
+        const count = Math.floor(seconds / duration);
+        if (count) {
+            seconds -= count * duration;
+            arrayTime.push(`${count} ${name}${count === 1 ? '' : 's'}`)
         }
-
-        return a;
-    }, [])
+    });
 
     if (arrayTime.length === 1) {
         return arrayTime[0];
