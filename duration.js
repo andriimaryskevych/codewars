@@ -15,11 +15,8 @@ A component will not appear at all if its value happens to be zero. Hence, 1 min
 A unit of time must be used "as much as possible". It means that the function should not return 61 s, but 1 minute and 1 second instead. Formally, the duration specified by of a component must not be greater than any valid more significant unit of time.
 */
 
-function formatDuration (s, count, a) {
-    return (a = Object.entries({ year: 31536000, day: 86400, hour: 3600, minute: 60, second: 1 }).reduce((b, [n, d]) => {
-        (count = Math.floor(s / d)) && b.push(`${count} ${n}${count === 1 ? '' : 's'}`) && (() => s -= count * d)();
-        return b;
-    }, [])) && !a.length ? 'now' : a.length === 1 ? a[0] : a.slice(0, a.length - 1).join(', ').concat(' and ').concat(a[a.length-1]);
+function formatDuration (s, c, a) {
+    return (a = Object.entries({ year: 31536000, day: 86400, hour: 3600, minute: 60, second: 1 }).reduce((b, [n, d]) => ((((c = Math.floor(s / d)) && b.push(`${c} ${n}${c === 1 ? '' : 's'}`) && (() => s -= c * d)()) && false) || b), [])) && !a.length ? 'now' : a.length === 1 ? a[0] : a.slice(0, a.length - 1).join(', ').concat(' and ').concat(a[a.length-1]);
 }
 
 console.log(formatDuration(7321));
