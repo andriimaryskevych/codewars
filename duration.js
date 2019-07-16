@@ -16,7 +16,7 @@ A unit of time must be used "as much as possible". It means that the function sh
 */
 
 function formatDuration (seconds) {
-    if (!seconds) {
+    if (!seconds)
         return 'now';
     }
 
@@ -28,24 +28,25 @@ function formatDuration (seconds) {
         { name: 'second', duration: 1 },
     ];
 
-    const arrayTime = [];
-    params.forEach(({ name, duration }) => {
+    const arrayTime = params.reduce((a, { name, duration }) => {
         const count = Math.floor(seconds / duration);
+
         if (count) {
             seconds -= count * duration;
-            arrayTime.push(`${count} ${name}${count === 1 ? '' : 's'}`)
+            a.push(`${count} ${name}${count === 1 ? '' : 's'}`)
         }
-    });
+
+        return a;
+    }, []);
 
     if (arrayTime.length === 1) {
         return arrayTime[0];
     } else {
-        let res = arrayTime.join(', ');
-
-        let replaceIndex = res.lastIndexOf(',');
-        const returnValue = res.slice(0, replaceIndex) + ' and' + res.slice(replaceIndex + 1);
-
-        return returnValue;
+        return arrayTime
+            .slice(0, arrayTime.length - 1)
+            .join(', ')
+            .concat(' and ')
+            .concat(arrayTime[arrayTime.length-1]);
     }
 }
 
