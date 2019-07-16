@@ -45,19 +45,29 @@ class RomanNumerals {
 RomanNumerals.toRoman(1234);
 
 function abstractTransformer(value, { low, middle, top }) {
-    const fromCenter = value - middle;
-
-    // It is 5 or bigger
-    if (fromCenter >= 0) {
-        const fromTop = top - value;
-
-        if (fromTop)
+    switch (value) {
+        case 1:;
+        case 2:;
+        case 3:;
+            return `${low}`.repeat(value);
+        case 4:
+            return `${low}${middle}`;
+        case 5:
+            return `${middle}`;
+        case 6:;
+        case 7:;
+        case 8:
+            return `${middle}`.concat(`${low}`.repeat(value - 5));
+        case 9:
+            return `${low}${top}`;
     }
 }
 
-abstractTransformer(7, {
-    low: 1,
-    middle: 5,
-    top: 10,
-})
+for(let i = 1; i < 10; i++) {
+console.log(abstractTransformer(i, {
+    low: 'X',
+    middle: 'L',
+    top: 'C',
+}))
+}
 
