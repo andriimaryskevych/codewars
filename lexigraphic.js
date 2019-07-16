@@ -1,26 +1,51 @@
-const globalArr = [];
+function chooseBestSum(t, k, ls) {
+    if (ls.length < k) return null;
 
-const getNext = (taken, notTaken) => {
-    if (notTaken.length === 1) {
-        globalArr.push(taken.concat(notTaken));
+    const globalArr = [];
+
+    const getNext = (taken, notTaken, maxLength) => {
+        if (maxLength === 0) {
+            globalArr.push(taken);
+
+            return;
+        }
+
+        for (let i = 0; i < notTaken.length - maxLength + 1; i++) {
+            const value = notTaken[i];
+            const shorterArray = notTaken.slice(i + 1);
+
+            getNext(taken.concat(value), shorterArray, maxLength - 1);
+        }
     }
 
-    for (let i = 0; i < notTaken.length; i++) {
-        const notFullArray = notTaken.concat();
-        const extractedValue = notFullArray.splice(i, 1);
+    const getAllPairs = (number, size) => {
+        const arr = [];
 
-        getNext(taken.concat(extractedValue), notFullArray);
+        for (let i = 0; i < number; i++) arr.push(i);
+        getNext([], arr, size);
     }
-}
 
-const getAllPairs = (number, size) => {
-    const arr = [];
+    getAllPairs(ls.length, k);
 
-    for (let i = 0; i < number; i++) arr.push(i);
-    for (let i = 0; i < number - size + 1; i++) {
-        getNext([], arr.slice(i, size + i));
+    const a = globalArr.map(array => {
+        return array.reduce((a, c) => {
+            return a + ls[c];
+        }, 0);
+    });
+
+    let min;
+    let val;
+
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] <= t) {
+            if (typeof min === 'undefined' || t - a[i] < min) {
+                min = t - a[i];
+                val = a[i];
+            }
+        }
     }
-}
 
-getAllPairs(5, 3);
-console.log(globalArr);
+    return val || null;
+};
+
+console.log(chooseBestSum(230, 3, [91, 74, 73, 85, 73, 81, 87]));
