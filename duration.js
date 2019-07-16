@@ -16,7 +16,7 @@ A unit of time must be used "as much as possible". It means that the function sh
 */
 
 function formatDuration (s, c, a) {
-    return (a = Object.entries({ year: 31536000, day: 86400, hour: 3600, minute: 60, second: 1 }).reduce((b, [n, d]) => ((((c = Math.floor(s / d)) && b.push(`${c} ${n}${c === 1 ? '' : 's'}`) && (() => s -= c * d)()) && false) || b), [])) && !a.length ? 'now' : a.length === 1 ? a[0] : a.slice(0, a.length - 1).join(', ').concat(' and ').concat(a[a.length-1]);
+    return(a=Object.entries({year:31536000,day:86400,hour:3600,minute:60,second:1}).reduce((b,[n,d]) => ((((c=Math.floor(s/d))&&b.push(`${c} ${n}${c===1?'':'s'}`)&&(()=>s-=c*d)())&&false)||b),[]))&&!a.length?'now':a.length===1?a[0]:a.slice(0,a.length-1).join(', ').concat(' and ').concat(a[a.length-1]);
 }
 
 console.log(formatDuration(7321));
