@@ -37,15 +37,10 @@ const abstractTransformer = (value, { low, middle, top }) => {
 
 class RomanNumerals {
     static fromRoman (string) {
-        // Just iterate over the symbols and sum them
-        const a = string
-            .split('')
-            .map(symbol => romanNumbers[symbol]);
+        const a = string.split('').map(symbol => romanNumbers[symbol]);
 
         for (let i = 0; i < a.length; i++) {
-            if (a[i + 1] > a[i]) {
-                a[i] *= -1
-            }
+            if (a[i + 1] > a[i]) a[i] *= -1
         }
 
         return a.reduce((a, c) => a + c, 0);
@@ -72,13 +67,3 @@ class RomanNumerals {
         }, '');
     }
 }
-
-
-// for(let i = 1; i < 10; i++) {
-//     console.log(abstractTransformer(i, {
-//         low: 'C',
-//         middle: 'D',
-//         top: 'M',
-//     }))
-// };
-
