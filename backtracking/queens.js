@@ -1,8 +1,6 @@
-const greedSize = 4;
+const greedSize = 8;
 
-const onTheSameLine = ([x1, y1], [x2, y2]) => {
-    return x1 === x2 || y1 === y2;
-};
+const onTheSameLine = ([x1, y1], [x2, y2]) => x1 === x2 || y1 === y2;
 
 const onTheSameDiagonal = ([x1, y1], [x2, y2]) => {
     const len1 = Number(
@@ -19,16 +17,30 @@ const onTheSameDiagonal = ([x1, y1], [x2, y2]) => {
     return len1 === len2;
 };
 
+const canBePlaced = (placed, targetPoint) => {
+    const line = placed.some(point => onTheSameLine(point, targetPoint));
+
+    if (line) {
+        return false;
+    }
+
+    const digonal = placed.some(point => onTheSameDiagonal(point, targetPoint));
+
+    if (digonal) {
+        return false;
+    }
+
+    return true;
+}
+
 const getPossibleQueenPositions = (placed) => {
     const possiblePlaces = [];
 
     for (let i = 0; i < greedSize; i++) {
         for (let j = 0; j < greedSize; j++) {
             const point = [i ,j];
-            // Conditions
 
-            // on somesones x, y axes
-            if (placed.some(([x, y]) => x === i || y === j)) {
+            if (!canBePlaced(placed, point)) {
                 continue;
             }
 
@@ -51,7 +63,10 @@ const arrangeQueens = (placed) => {
     }
 
     for (let i = 0; i < nextPositions.length; i++) {
-        const stepValue = arrangeQueens(placed.concat(nextPositions[i]));
+        const copy = placed.concat();
+        copy.push(nextPositions[i]);
+
+        const stepValue = arrangeQueens(copy);
 
         if (stepValue === false) {
             continue;
@@ -62,3 +77,5 @@ const arrangeQueens = (placed) => {
 
     return false;
 };
+
+console.log(arrangeQueens([]));
