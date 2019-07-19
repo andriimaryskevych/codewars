@@ -5,7 +5,18 @@ const onTheSameLine = ([x1, y1], [x2, y2]) => {
 };
 
 const onTheSameDiagonal = ([x1, y1], [x2, y2]) => {
+    const len1 = Number(
+        Math.sqrt(
+            Math.pow(x1 - x1, 2) + Math.pow(y2 - y1, 2)
+        ).toFixed(2)
+    );
 
+    const len2 = Number(
+        Math.sqrt(
+            Math.pow(x1 - x2, 2) + Math.pow(y2 - y2, 2)
+        ).toFixed(2));
+
+    return len1 === len2;
 };
 
 const getPossibleQueenPositions = (placed) => {
