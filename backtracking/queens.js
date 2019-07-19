@@ -1,4 +1,4 @@
-const greedSize = 8;
+const greedSize = 7;
 
 const onTheSameLine = ([x1, y1], [x2, y2]) => x1 === x2 || y1 === y2;
 
@@ -51,9 +51,12 @@ const getPossibleQueenPositions = (placed) => {
     return possiblePlaces;
 };
 
+const solutions = [];
 const arrangeQueens = (placed) => {
     if (placed.length === greedSize) {
-        return placed;
+        solutions.push(placed);
+
+        return false;
     }
 
     const nextPositions = getPossibleQueenPositions(placed);
@@ -79,3 +82,5 @@ const arrangeQueens = (placed) => {
 };
 
 console.log(arrangeQueens([]));
+console.log(solutions.length);
+console.log(solutions);
