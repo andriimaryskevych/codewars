@@ -13,19 +13,19 @@ function buildMatchesTable(numberOfTeams) {
     const getPossiblePlaces = (alreadyUsed) => {
         const res = [];
 
+        const totalTakenPointsCount = alreadyUsed.length;
+        const currentRoundGamesCount = totalTakenPointsCount % gamesPerRound;
+        const lastRoundGames = alreadyUsed.slice(alreadyUsed.length - currentRoundGamesCount);
+
         for (let i = 0; i < numberOfTeams; i++) {
             for (let j = i + 1; j < numberOfTeams; j++) {
                 const testPoint = [i, j];
 
-                if (alreadyUsed.some(taken => alreadyTaken(taken, testPoint))) {
+                if (lastRoundGames.some(taken => intersection(taken, testPoint))) {
                     continue;
                 }
 
-                const totalTakenPointsCount = alreadyUsed.length;
-                const currentRoundGamesCount = totalTakenPointsCount % gamesPerRound;
-                const lastRoundGames = alreadyUsed.slice(alreadyUsed.length - currentRoundGamesCount);
-
-                if (lastRoundGames.some(taken => intersection(taken, testPoint))) {
+                if (alreadyUsed.some(taken => alreadyTaken(taken, testPoint))) {
                     continue;
                 }
 
@@ -47,7 +47,7 @@ function buildMatchesTable(numberOfTeams) {
             return false;
         }
 
-        for (let i = 0; i < nextPositions.length; i++) {
+        for (let i = 0; i < nextPositions.length / 2; i++) {
             const copy = placed.concat();
             copy.push(nextPositions[i]);
 
@@ -75,4 +75,4 @@ function buildMatchesTable(numberOfTeams) {
     return res;
 }
 
-console.log(buildMatchesTable(2));
+console.log(buildMatchesTable(20));
