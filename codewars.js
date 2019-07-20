@@ -49,12 +49,6 @@ class User {
             throw new Error();
         }
 
-        let toSum = 8;
-
-        if (rank >= 1) {
-            toSum -= 1;
-        }
-
-        this._incProgess(rank + toSum);
+        this._incProgess(rank + (rank >= 1 ? 7 : 8));
     }
 }
