@@ -25,23 +25,13 @@ class User {
     _incProgess (normalized) {
         const diff = normalized - Math.floor(this._progress / 100);
 
-        if (diff === 0) {
-            this._inc(3);
+        let acceleration;
+        if (diff === 0)         acceleration = 3;
+        else if (diff === -1)   acceleration = 1;
+        else if (diff <= -2)    acceleration = 0;
+        else                    acceleration = 10 * diff * diff;
 
-            return;
-        }
-
-        if (diff === -1) {
-            this._inc(1);
-
-            return;
-        }
-
-        if (diff <= -2) {
-            return;
-        }
-
-        this._inc(10 * diff * diff);
+        this._inc(acceleration);
     }
 
     incProgress (rank) {
