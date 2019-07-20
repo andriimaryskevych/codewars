@@ -11,25 +11,19 @@ class User {
         const rankFromZero = Math.floor(this._progress / 100);
         const normalized = rankFromZero - 8;
 
-        return normalized >= 0 ? normalized - 1 : normalized;
+        return normalized >= 0 ? normalized + 1 : normalized;
     }
 
     _inc (amout) {
         this._progress += amout;
 
-        if (this._progress > 1600) {
-            this._progress = 1600;
+        if (this._progress > 1500) {
+            this._progress = 1500;
         }
     }
 
-    incProgress (rank) {
-        const currentRank = this.rank;
-
-        if (rank >= 1 && currentRank <= -1) {
-            rank -= 1;
-        }
-
-        const diff = rank - currentRank;
+    _incProgess (normalized) {
+        const diff = normalized - Math.floor(this._progress / 100);
 
         if (diff === 0) {
             this._inc(3);
@@ -49,11 +43,18 @@ class User {
 
         this._inc(10 * diff * diff);
     }
-}
 
-/*
-0 - 99 -> -8
-100 - 199 -> -7
-600 - 799 -> -1
-800 - 899 -> 1
-*/
+    incProgress (rank) {
+        if (Math.abs(rank) >= 9 || rank === 0) {
+            throw new Error();
+        }
+
+        let toSum = 8;
+
+        if (rank >= 1) {
+            toSum -= 1;
+        }
+
+        this._incProgess(rank + toSum);
+    }
+}
