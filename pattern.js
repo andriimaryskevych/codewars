@@ -13,8 +13,8 @@ function countPatternsFrom(firstDot, length) {
         Write helper function getBlocker() which return point or null
     */
     const getBlocker = ([x1, y1], [x2, y2]) => {
-        const x = Math.abs(x1 - x2);
-        const y = Math.abs(y1 - y2);
+        const x = (Math.abs(x1 - x2) / 2) + Math.min(x1, x2);
+        const y = (Math.abs(y1 - y2) / 2) + Math.min(y1, y2);
 
         if (Number.isInteger(x) && Number.isInteger(y)) {
             return [x, y];
@@ -33,14 +33,16 @@ function countPatternsFrom(firstDot, length) {
             for (let j = 0; j < 3; j++) {
                 const targetPoint = [i, j];
 
+                // If point is already used
                 if (alreadyUsed.some(point => sameCoordinates(point, targetPoint))) {
                     continue;
                 }
 
                 const blocker = getBlocker(head, targetPoint);
 
-                if (blocker) {
-
+                // If there is point in between but it is already used
+                if (blocker && !alreadyUsed.some(point => sameCoordinates(point, blocker))) {
+                    continue;
                 }
 
                 res.push([i, j]);
