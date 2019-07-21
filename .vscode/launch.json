@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/remote.js"
+            "program": "${workspaceFolder}/pattern.js"
         }
     ]
 }
