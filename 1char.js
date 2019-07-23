@@ -1,4 +1,11 @@
-const k = (str) => { return str.replace(/\n/g, ''); }
+k
+=
+(
+s
+)=>
+{
+return s.replace(/\n/g, '')
+}
 
 (
 {
