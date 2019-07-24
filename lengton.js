@@ -7,7 +7,7 @@ const extendArray = (arr, direction) => {
     }
 }
 
-const getOutgoingPart = (heigth, width, x, y) => {
+const getOutOfRangePart = (heigth, width, x, y) => {
     if (x < 0) {
         return 0;
     } else if (y == width) {
@@ -24,17 +24,7 @@ const getOutgoingPart = (heigth, width, x, y) => {
 const getNewAntPosition = (shiftedPart, x, y) => {
     switch (shiftedPart) {
         case 0: x = 0; break;
-        case 1: break;
-        case 2: break;
         case 3: y = 0; break;
-    }
-
-    if (x < 0) {
-        x = 0;
-    }
-
-    if (y < 0) {
-        y = 0;
     }
 
     return { x, y };
@@ -67,11 +57,11 @@ function ant(grid, column, row, n, dir = 0) {
         case 3: column -= 1; break;
     }
 
-    const outgoingPart = getOutgoingPart(grid.length, grid[0].length, row, column);
+    const outOfRangePart = getOutOfRangePart(grid.length, grid[0].length, row, column);
 
-    if (outgoingPart !== null) {
-        extendArray(grid, outgoingPart);
-        const newAntPosition = getNewAntPosition(outgoingPart, row, column);
+    if (outOfRangePart !== null) {
+        extendArray(grid, outOfRangePart);
+        const newAntPosition = getNewAntPosition(outOfRangePart, row, column);
 
         row = newAntPosition.x;
         column = newAntPosition.y;
