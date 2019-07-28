@@ -532,11 +532,27 @@ class Node {
         this.children[letter].add(remaining);
     }
 
-    has (word) {
+    getStatus (word) {
+        if (word === '') {
+            if (this.finalWord) {
+                return 'word';
+            } else {
+                return 'part';
+            }
+        }
 
+        const letter = word[0];
+
+        const child = this.children[letter];
+
+        if (child) {
+            return child.getStatus(word.slice(1));
+        }
+
+        return false;
     }
 
-    print (wordStart) {
+    print (wordStart = '') {
         if (this.finalWord){
             console.log(`${wordStart}${this.letter}`);
         }
@@ -570,12 +586,12 @@ class Tree {
         this.root.add(word);
     }
 
-    has (word) {
-        this.root.has(word);
+    getStatus (word) {
+        return this.root.getStatus(word);
     }
 
     printAllWords () {
-        this.root.print('');
+        this.root.print();
     }
 
     getHeigth () {
@@ -622,5 +638,3 @@ const tree = new Tree();
 a.forEach(word => {
     tree.add(word);
 });
-
-tree.printAllWords();
