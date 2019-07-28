@@ -507,6 +507,82 @@ const a = [
 
 const VALID_WORDS = new Set(a);
 
+class Node {
+    constructor (letter = '') {
+        this.letter = letter;
+
+        this.finalWord = false;
+        this.children = {};
+    }
+
+    add (word) {
+        if (word === '') {
+            this.finalWord = true;
+
+            return;
+        }
+
+        const letter = word[0];
+        const remaining = word.slice(1);
+
+        if (!this.children[letter]) {
+            this.children[letter] = new Node(letter);
+        }
+
+        this.children[letter].add(remaining);
+    }
+
+    has (word) {
+
+    }
+
+    print (wordStart) {
+        if (this.finalWord){
+            console.log(`${wordStart}${this.letter}`);
+        }
+
+        Object.values(this.children).forEach(child => {
+            child.print(wordStart + this.letter);
+        });
+    }
+
+    getHeigth () {
+        let maxHeigth = 0;
+
+        Object.values(this.children).forEach(child => {
+            const childHeigth = child.getHeigth();
+
+            if (childHeigth > maxHeigth) {
+                maxHeigth = childHeigth;
+            }
+        });
+
+        return maxHeigth + 1;
+    }
+}
+
+class Tree {
+    constructor () {
+        this.root = new Node('');
+    }
+
+    add (word) {
+        this.root.add(word);
+    }
+
+    has (word) {
+        this.root.has(word);
+    }
+
+    printAllWords () {
+        this.root.print('');
+    }
+
+    getHeigth () {
+        return this.root.getHeigth();
+    }
+}
+
 const getNextWord = (sentence) => {
     const length = sentence.length;
 
@@ -542,4 +618,9 @@ function maxMatch(sentence){
     return [foundWord].concat(maxMatch(restOfTheWord));
 }
 
-console.log(maxMatch('heprpfhelphelphelp'));
+const tree = new Tree();
+a.forEach(word => {
+    tree.add(word);
+});
+
+tree.printAllWords();
