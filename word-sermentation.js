@@ -506,3 +506,40 @@ const a = [
 ];
 
 const VALID_WORDS = new Set(a);
+
+const getNextWord = (sentence) => {
+    const length = sentence.length;
+
+    let i = 0;
+    let foundWord;
+
+    while (i !== sentence.length) {
+        const toCheck = sentence.slice(0, length - i);
+
+        if (VALID_WORDS.has(toCheck)) {
+            foundWord = toCheck;
+            break;
+        }
+
+        i++;
+    }
+
+    if (!foundWord) {
+        foundWord = sentence[0];
+    }
+
+    return foundWord;
+};
+
+function maxMatch(sentence){
+    if (sentence.length === 0) {
+        return [];
+    }
+
+    const foundWord = getNextWord(sentence);
+    const restOfTheWord = sentence.slice(foundWord.length);
+
+    return [foundWord].concat(maxMatch(restOfTheWord));
+}
+
+console.log(maxMatch('heprpfhelphelphelp'));
