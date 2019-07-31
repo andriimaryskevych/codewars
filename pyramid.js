@@ -1,17 +1,25 @@
 function longestSlideDown (pyramid) {
+    const memory = {};
+
     const longestSlide = (index = 0, level = 0) => {
         if (level === pyramid.length - 1) {
             return pyramid[pyramid.length - 1][index];
         }
 
-        const left = longestSlide(index, level + 1);
-        const rigth = longestSlide(index + 1, level + 1);
+        const key = `${level}:${index}`;
 
-        const current = pyramid[level][index];
+        if (!memory[key]) {
+            const left = longestSlide(index, level + 1);
+            const rigth = longestSlide(index + 1, level + 1);
 
-        const sum = current + (left > rigth ? left : rigth);
+            const current = pyramid[level][index];
 
-        return sum;
+            const sum = current + (left > rigth ? left : rigth);
+
+            memory[key] = sum;
+        }
+
+        return memory[key];
     }
 
     return longestSlide()
