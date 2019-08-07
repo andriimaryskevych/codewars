@@ -19,6 +19,10 @@ const getNewDirection = (direction, newDirection) => {
     return direction;
 };
 
+const samePoints = ([a, b], [c, d]) => {
+    return a === c && b === d;
+};
+
 const performStep = (previousLocation, steps, direction) => {
     const newlocation = previousLocation.concat();
 
@@ -53,24 +57,42 @@ const getArea = (vertexes) => {
     return Math.abs(sum / 2);
 };
 
-const lineIntersect = (a, b, c, d, p, q, r, s) => {
-    var det, gamma, lambda;
-    det = (c - a) * (s - q) - (r - p) * (d - b);
-    if (det === 0) {
+const lineIntersect = (x1,y1,x2,y2, x3,y3,x4,y4) => {
+    var x=((x1*y2-y1*x2)*(x3-x4)-(x1-x2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4));
+    var y=((x1*y2-y1*x2)*(y3-y4)-(y1-y2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4));
+    if (isNaN(x)||isNaN(y)) {
         return false;
     } else {
-        lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
-        gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
-        return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
+        if (x1>=x2) {
+            if (!(x2<=x&&x<=x1)) {return false;}
+        } else {
+            if (!(x1<=x&&x<=x2)) {return false;}
+        }
+        if (y1>=y2) {
+            if (!(y2<=y&&y<=y1)) {return false;}
+        } else {
+            if (!(y1<=y&&y<=y2)) {return false;}
+        }
+        if (x3>=x4) {
+            if (!(x4<=x&&x<=x3)) {return false;}
+        } else {
+            if (!(x3<=x&&x<=x4)) {return false;}
+        }
+        if (y3>=y4) {
+            if (!(y4<=y&&y<=y3)) {return false;}
+        } else {
+            if (!(y3<=y&&y<=y4)) {return false;}
+        }
     }
+    return true;
 };
 
 const hasIntersections = (vertexes) => {
-    for (let i = 0; i < vertexes.length - 1; i++) {
+    for (let i = 0; i < vertexes.length - 3; i++) {
         const [a, b] = vertexes[i];
         const [c, d] = vertexes[i + 1];
 
-        for (let j = 0; j < vertexes.length - 1; j++) {
+        for (let j = i + 2; j < vertexes.length - 1; j++) {
             const [p, q] = vertexes[j];
             const [r, s] = vertexes[j + 1];
 
@@ -115,9 +137,13 @@ function mousePath(str) {
         vertexes.push(position);
     });
 
+
     console.log(vertexes);
 
-    return hasIntersections(vertexes) ? null : getArea(vertexes);
+    return hasIntersections(vertexes.slice(0, vertexes.length)) || !samePoints(vertexes[0], vertexes[vertexes.length - 1]) ? null : getArea(vertexes);
 }
 
-console.log(mousePath('12R6R2R2R1L1L1R2L1L1R4R2L1L5R1L3R6R2R1L2R2L4'));
+// console.log(mousePath('2R4R4R4R2'));
+console.log(mousePath('12L5L8L2R4R5R15L8L15L16'));
+
+console.log(lineIntersect(0, 0, 10, 10, 0, 10, 10, 10))
