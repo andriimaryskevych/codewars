@@ -115,7 +115,9 @@ function mousePath(str) {
         vertexes.push(position);
     });
 
+    console.log(vertexes);
+
     return hasIntersections(vertexes) ? null : getArea(vertexes);
 }
 
-console.log(mousePath('10R5R5R10L5L5'));
+console.log(mousePath('12R6R2R2R1L1L1R2L1L1R4R2L1L5R1L3R6R2R1L2R2L4'));
